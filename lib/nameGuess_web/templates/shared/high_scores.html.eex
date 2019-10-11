@@ -1,0 +1,25 @@
+<div class="grid-x grid-padding-x highscore-header">
+  <div class="cell small-1 medium-1 text-right"><%= gettext "Rank" %></div>
+  <div class="cell small-5 medium-4 text-center"><%= gettext "Name" %></div>
+  <div class="cell auto"></div>
+  <div class="cell small-2 medium-2 text-right"><%= gettext "Score" %></div>
+</div>
+<%= for {[name, score, is_winner], index} <- Enum.with_index(@high_scores) do %>
+  <div class="grid-x grid-padding-x highscore">
+    <div class="cell small-1 medium-1 text-right">
+      <%= if index < 3 do %>
+        <i class="fi-trophy trophy-<%= index + 1 %>"></i>
+      <% else %>
+      #<%= index + 1 %>
+      <% end %>
+    </div>
+    <div class="cell small-6 medium-5 text-center">
+    <%= name %>
+    <%= if is_winner == true do %>
+        &nbsp;<i class="fi-star" title="<%= gettext "Winner !" %>"></i>
+    <% end %>
+    </div>
+    <div class="cell auto highscore-fill"></div>
+    <div class="cell small-2 medium-2 text-right"><%= score %></div>
+  </div>
+<% end %>

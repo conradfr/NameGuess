@@ -1,0 +1,68 @@
+.menu {
+  li {
+    a {
+      @include breakpoint(medium down) {
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      color:$header-flat;
+
+      &:hover {
+        color: $header-vibrant;
+      }
+    }
+  }
+
+  &.title a {
+    color: $header-vibrant;
+    font-weight: bold;
+
+    span.title-space {
+      color:$header-flat;
+    }
+
+    &:hover {
+      color: $header-flat;
+    }
+  }
+
+  /*
+    Foundation overrides
+    (Didn't find how to inject my settings in the middle of Foundation's scss from node_modules ...)
+   */
+
+  ul.is-dropdown-submenu {
+    background-color: lighten($background-color-header, 1%);
+    border: none;
+  }
+
+  &.dropdown > li.is-dropdown-submenu-parent > a,
+  &.dropdown > li.is-dropdown-submenu-parent.is-active a {
+    color: $header-flat;
+  }
+
+  &.dropdown > li.is-dropdown-submenu-parent > a:hover,
+  ul.is-dropdown-submenu .is-submenu-item.is-dropdown-submenu-item a:hover {
+    color: $header-vibrant;
+  }
+
+  &.dropdown > li.is-dropdown-submenu-parent > a::after {
+    border-color: $header-flat transparent transparent;
+  }
+
+  .is-dropdown-submenu-parent a {
+    font-weight: normal;
+  }
+}
+
+/*.menu.float-right {
+  li {
+    a {
+      @include breakpoint(small only) {
+        font-size: 11px;
+        font-weight: bold;
+      }
+    }
+  }
+}*/

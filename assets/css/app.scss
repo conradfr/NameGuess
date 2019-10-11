@@ -1,0 +1,21 @@
+/* This file is for your main application css. */
+
+/*@import "./phoenix.css";*/
+
+@import 'variables';
+
+@import '../node_modules/foundation-sites/assets/foundation';
+@import './foundation-icons.css';
+//@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+@import './utils/space';
+@import './utils/utils';
+
+@import './components/global';
+@import './components/layout';
+@import './components/menu';
+
+@import './pages/home';
+@import './pages/game';
+@import './pages/highscores';
+@import './pages/stats';

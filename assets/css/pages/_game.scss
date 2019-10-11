@@ -1,0 +1,145 @@
+.play-game {
+  min-width: 250px;
+}
+
+.pick-img {
+  position: sticky;
+  top: 20px;
+  transition: 0.5s filter linear, 0.5s -webkit-filter linear;
+  margin-bottom: 20px;
+}
+
+.state-gameover .pick-img {
+  filter: grayscale(80%);
+}
+
+.countdown, .countdown-label, .score-label, .score {
+  transition: 0.7s opacity linear
+}
+
+.state-gameover .countdown, .state-gameover .countdown-label,
+.state-gameover .score-label, .state-gameover .score {
+  opacity: 0.5;
+}
+
+.job {
+  font-size: 0.75rem;
+  color: $sub-color;
+  margin-top: 10px;
+}
+
+.game-info-small {
+  position: sticky;
+  top: 160px;
+}
+
+.countdown-label, .score-label {
+  font-size: 1.1rem;
+}
+
+.countdown, .score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.score-to-win {
+  color: $h-color;
+  font-size: 0.75rem;
+  font-weight: normal;
+}
+
+.button {
+  &.button-choice {
+    min-width: 220px;
+
+    &.button.no-click {
+      cursor: default;
+    }
+
+    &.secondary {
+      background-color: $button-game-background;
+      color: $background-color-header;
+
+      &:hover {
+        background-color: darken($button-game-background, 15% )
+      }
+
+      &:active {
+        background-color: darken($button-game-background, 20% )
+      }
+    }
+
+    &.success {
+      background-color: $game-win;
+    }
+
+    &.success, &.alert {
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
+.state-gameover, .state-win {
+  label {
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+}
+// input
+#score_name {
+  margin-bottom: 0;
+}
+
+.live-header {
+  //margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.game-over-container {
+  margin-top: 40px;
+  animation: slide-down 0.3s ease;
+}
+
+.game-over-text, .game-win-text  {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.game-over-text {
+  color: $game-over;
+}
+
+.game-win-text {
+  color: $game-win;
+}
+
+.game-over-score-container {
+  font-size: 1.25rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  animation: slide-up 0.3s ease;
+}
+
+.game-over-score {
+
+}
+
+.game-over-score-label {
+  font-weight: bold;
+}
+
+.game-over-highscore-container {
+  margin-top: 25px;
+}
+
+.input-group .input-group-button button.success {
+  color: white;
+  background-color: $game-win;
+}
+
+.play-again {
+  margin-top: 30px;
+}
