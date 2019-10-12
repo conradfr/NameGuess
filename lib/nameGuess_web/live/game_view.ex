@@ -4,7 +4,6 @@ defmodule NameGuessWeb.GameView do
   alias NameGuess.HighScore
   require Logger
 
-  @tick_interval 1000
   @next_interval_guessed 700
   @next_interval_wrong 1350
 

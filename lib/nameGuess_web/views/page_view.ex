@@ -71,7 +71,7 @@ defmodule NameGuessWeb.PageView do
 
       {:error, reason} ->
         Logger.warn("Error reading #{Integer.to_string(person.id)} #{image_path} : #{reason}")
-        Store.update_pictures(person.id)
+        Store.update_pictures([person.id])
         "error"
     end
   end

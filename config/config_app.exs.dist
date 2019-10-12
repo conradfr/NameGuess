@@ -9,4 +9,5 @@ config :nameGuess, NameGuessWeb.Endpoint,
 
 config :nameGuess,
        app_name: "NameGuess",
+       bamboohr_subdomain: "",
        datasource_sources: [NameGuess.DataSource.BambooHR, NameGuess.DataSource.Local]

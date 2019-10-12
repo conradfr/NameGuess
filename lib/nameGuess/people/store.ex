@@ -139,7 +139,7 @@ defmodule NameGuess.People.Store do
       unless person == nil do
         update_pictures_task =
           Task.Supervisor.async_nolink(TaskSupervisor, fn ->
-#            import_image(person)
+            import_image(person)
             Image.generate_from_original(person, person.img)
             Image.generate_thumbnail(person)
             Logger.info("Image imported #{Integer.to_string(person.id)} #{person.img} ")
