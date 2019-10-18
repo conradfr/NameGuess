@@ -1,0 +1,21 @@
+h1, h3, h4 {
+  color: $h-color;
+}
+
+h4 {
+  margin-bottom: 20px;
+}
+
+.hr-space {
+  @include space('bottom', 35);
+}
+
+.play-block {
+  text-align: center;
+  @include space('top', 50);
+}
+
+.stats-block {
+  text-align: center;
+  @include space('top', 20);
+}

@@ -1,0 +1,50 @@
+
+.home-h1 {
+  font-weight: bold;
+  text-shadow: 0 1px 0.3px rgba(93, 210, 194, 0.3);
+
+  transition: 0.1s color linear;
+
+  @include space('bottom', 25);
+
+  &[data-space]::after {
+    color: $h-color;
+    content: attr(data-space);
+    font-size: small;
+    vertical-align: super;
+    position: relative;
+    top: -5px;
+    left: 0;
+  }
+
+  img {
+    width: 80px;
+    margin-right: 25px;
+  }
+
+  span {
+    color: $main_color;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+
+  &:hover {
+    color: $main_color;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    span {
+      color: $h-color;
+      text-shadow: 0 1px 0.3px rgba(93, 210, 194, 0.3);
+    }
+  }
+}
+
+.home-h3 {
+  @include space('bottom', 50);
+}
+
+.home-play {
+  @include space('bottom', 35);
+}
+
+.home-stats {
+  color: $h-color;
+}

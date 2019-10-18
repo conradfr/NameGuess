@@ -1,0 +1,119 @@
+<%= if assigns[:game] do %>
+<div class="grid-x grid-padding-x <%= game_state_class(@socket, @game) %>" phx-hook="Global">
+  <div class="cell small-5 medium-3 text-center">
+    <div class="pick-img">
+        <img alt="Who dis?" title="Who dis?" src="data:image/jpg;base64, <%= game_encoded_picture(@game.space.codename, @game.current_pick) %>">
+        <%= if @space.display_position == true do %>
+          <p class="job"><%= @game.current_pick.position %></p>
+        <% end %>
+    </div>
+    <div class="game-info-small show-for-small-only">
+      <div class="countdown-label"><%= gettext "Countdown" %></div>
+      <div class="countdown"><%= @game.tick %></div>
+      <div class="score-label"><%= gettext "Score" %></div>
+      <div class="score"><%= @game.score %></div>
+    </div>
+  </div>
+  <div class="cell auto text-center">
+    <div class="grid-x grid-padding-x live-header hide-for-small-only">
+      <div class="cell medium-6 game-info-medium">
+      <span class="countdown-label"><%= gettext "Countdown" %>:</span> <span phx-hook="Countdown" data-state="<%= countdown_state(@socket, @game) %>" data-countdown="<%= @game.countdown_from %>" class="countdown"><%= @game.tick %></span>
+      </div>
+      <div class="cell medium-6 game-info-medium">
+        <span class="score-label"><%= gettext "Score" %>:</span>&nbsp;<span class="score"><%= @game.score %></span> <span class="score-to-win">/<%= @guesses_to_win %></span>
+      </div>
+    </div>
+
+  <%= if Enum.member?([:ok, :ok_next, :win_next, :gameover_next], @game.state) do %>
+    <div class="grid-x grid-padding-x">
+      <div class="cell auto">
+      <%= for choice <- @game.current_choices do %>
+          <%= if @game.state == :ok do %>
+            <button class="button-choice button secondary" phx-click="guess" phx-value-choice="<%= choice.id %>">
+              <%= choice.name %>
+            </button>
+          <% else %>
+            <button class="button-choice no-click button <%= button_state_class(@socket, @game, choice.id) %>">
+              <%= choice.name %>
+            </button>
+          <% end %>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= if @game.state == :gameover or @game.state == :win do %>
+    <div class="grid-x grid-padding-x align-center-middle text-center game-over-container">
+      <div class="cell auto">
+        <%= if @game.state == :gameover do %>
+          <h3 class="text-center game-over-text"><%= gettext "Game over :(" %></h3>
+        <% end %>
+        <%= if @game.state == :win do %>
+          <h3 class="text-center game-win-text"><%= gettext "YOU WIN !" %></h3>
+        <% end %>
+      </div>
+    </div>
+    <div class="grid-x grid-padding-x game-over-score-container">
+      <div class="cell small-12 auto game-over-score">
+        <p class="text-center"><%= gettext "Final score" %>: <span class="game-over-score-label"><%= @game.score %></span></p>
+      </div>
+    </div>
+
+    <%= if is_high_score?(@game) == true do %>
+    <div class="grid-x grid-padding-x game-over-highscore-container">
+      <div class="cell medium-8 medium-offset-2 small-12">
+      <%= if assigns[:submit_score] == nil do %>
+        <%= f = form_for @changeset, "#", [phx_submit: :submit_best, phx_change: :name_change, autocomplete: :off] %>
+          <div class="grid-x grid-padding-x">
+            <div class="small-6 medium-3 medium-offset-2 cell">
+              <label class="text-left"><%= gettext "Save your score" %>:</label>
+            </div>
+            <div class="small-6 medium-5 cell">
+              <div class="float-right">
+              <%= gettext("#%{rank} this week", rank: @game.score_rank_this_week) %>
+              <%= if @game.score_rank_all_time < 26 do %>
+                <%= gettext(", #%{rank} overall", rank: @game.score_rank_all_time) %>
+              <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="grid-x grid-padding-x">
+            <div class="small-auto medium-8 medium-offset-2 cell">
+              <div class="input-group">
+                <%= text_input f, :name, [{"placeholder", "Your name"}, {"class", "input-group-field"}] %>
+                <div class="input-group-button">
+                  <button type="submit" class="button success" phx-disable-with="Saving..."
+                  <%= if assigns[:submit_score_allowed] != :ok do %> disabled<% end %>
+                  ><%= gettext "Submit" %></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      <% end %>
+      <%= if assigns[:submit_score] != nil and @submit_score == :ok do %>
+        <div class="text-center score-updated" data-name="<%= @name %>" phx-hook="UpdateName">
+            <i class="fi-check"></i> <%= gettext "Score registered" %> - <a href="<%= Routes.page_path(@socket, :high_scores, @game.space.codename) %>"><%= gettext "Check high scores" %></a></li>
+        </div>
+      <% end %>
+     </div>
+    </div>
+    <% else %>
+      <%= if @game.score == 0 do %>
+      <div class="grid-x grid-padding-x text-center">
+          <div class="cell auto">
+              <img title="Ahah!" alt="Ahah!" style="height: 85px" src="<%= Routes.static_path(@socket, "/images/loser.png") %>">
+          </div>
+      </div>
+      <% end %>
+    <% end %>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-offset-3 medium-6">
+        <button class="button text-center expanded play-again" phx-click="start"><%= gettext "Play again !" %></button>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>
+<% end %>

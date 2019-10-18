@@ -1,0 +1,39 @@
+.highscores {
+  color: #414141;
+  font-weight: bold;
+
+  .fi-trophy {
+    font-size: 23px;
+    &.trophy-1 { color: #e3ac19; }
+    &.trophy-2 { color: #a39d9f; }
+    &.trophy-3 { color: #a48756; }
+  }
+}
+
+.highscore-header {
+  border-bottom: 1px solid #afafaf;
+  margin-bottom: 20px;
+
+  & div {
+    color: #464646;
+    padding-bottom: 10px;
+  }
+}
+
+.highscore {
+  margin-bottom: 10px;
+
+  .fi-star {
+    font-size: 14px;
+    color: gold;
+  }
+}
+
+.highscore-fill {
+  border-bottom: 1px dotted #818181;
+}
+
+.no-score {
+  text-align: center;
+  @include space('top', 50);
+}

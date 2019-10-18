@@ -1,0 +1,57 @@
+h4.cat-title, h5.cat-title {
+  font-weight: bold;
+}
+
+.stats-percent {
+  font-size: 0.75rem;
+  color: $sub-color;
+  font-weight: normal;
+}
+
+#stats-divisions {
+
+  label {
+    font-weight: bold;
+  }
+
+  select {
+    margin-top: 5px;
+  }
+
+}
+.media-object-stats {
+  img {
+    max-width: 62px;
+  }
+
+  h6 {
+    margin-bottom: 0;
+  }
+
+  .stats-index {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 2rem;
+    color: $light-color;
+    text-align: center;
+    min-width: 75px;
+  }
+
+  .media-object-content {
+    flex: 1 1 auto
+  }
+
+  .media-object-section p {
+    font-size: 0.75rem;
+    color: $sub-color;
+  }
+
+  .media-object-section-job {
+    font-style: italic;
+  }
+}
+
+.no-data {
+  text-align: center;
+  @include space('top', 50);
+}

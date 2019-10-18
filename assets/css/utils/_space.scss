@@ -1,0 +1,49 @@
+@mixin space($direction, $how-much) {
+  margin-#{$direction}: #{$how-much}px;
+}
+
+/* ----- Spacing ----- */
+
+.space-up-20-sm {
+  @include breakpoint(small only) {
+    @include space('top', 20);
+  }
+}
+
+.space-up-20 {
+  @include space('top', 20);
+}
+
+.space-up-25 {
+  @include space('top', 25);
+}
+
+.space-up-25-md {
+  @include breakpoint(medium) {
+    @include space('top', 25);
+  }
+}
+
+.space-up-35 {
+  @include space('top', 35);
+}
+
+.space-up-50 {
+  @include space('top', 50);
+}
+
+.space-down-5 {
+  @include space('bottom', 5);
+}
+
+.space-down-25 {
+  @include space('bottom', 25);
+}
+
+.space-down-35 {
+  @include space('bottom', 35);
+}
+
+.space-down-50 {
+  @include space('bottom', 50);
+}

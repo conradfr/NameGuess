@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NameGuess</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+  </head>
+  <body data-space="<%= @space.codename %>">
+    <header>
+      <div class="grid-container">
+        <div class="grid-x">
+          <div class="title cell medium-6 small-4 no-js">
+            <ul class="menu title dropdown" data-dropdown-menu>
+              <li><a href="<%= Routes.page_path(@conn, :index, @space.codename) %>">NameGuess<!-- <span class="title-space"><%= @space.name %></span>--></a></li>
+              <li class="is-dropdown-submenu-parent hide-for-small-only">
+                <a href="#"><%= @space.name %></a>
+                <ul class="menu vertical">
+                  <%= for {codename, name} <- get_space(@conn) do %>
+                    <%= if codename != @space.codename do %>
+                      <li><a href="<%= Routes.page_path(@conn, :index, codename) %>"><%= name %></a></li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="cell auto">
+            <ul class="menu float-right">
+              <li><a href="<%= Routes.page_path(@conn, :game, @space.codename) %>"><%= gettext "Game" %></a></li>
+              <li><a href="<%= Routes.page_path(@conn, :high_scores, @space.codename) %>"><%= gettext "High Scores" %></a></li>
+              <li><a href="<%= Routes.stats_spaced_path(@conn, NameGuessWeb.StatsView, @space.codename) %>"><%= gettext "Stats" %></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main role="main">
+    <div class="grid-container">
+      <div class="grid-x">
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      </div>
+      <%= render @view_module, @view_template, assigns %>
+    </div>
+    </main>
+    <footer>
+        <%= gettext("©%{year} %{app_name}", year: DateTime.utc_now.year, app_name: Application.get_env(:nameGuess, :app_name)) |> raw() %>
+    </footer>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

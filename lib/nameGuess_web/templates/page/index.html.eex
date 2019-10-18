@@ -1,0 +1,24 @@
+<div class="grid-x grid-padding-x">
+  <div class="cell hide-for-small-only medium-4">
+    <img title="Who?" alt="Who?" src="<%= Routes.static_path(@conn, "/pics/home_gen.jpg") %>">
+  </div>
+  <div class="cell auto align-self-middle text-center">
+    <h1 class="home-h1"><%= Application.get_env(:nameGuess, :app_name) %></h1>
+    <h3 class="home-h3"><%= gettext("Do you know the name of your %{number} colleagues?", number: @number_of_people - 1) %></h3>
+    <p class="home-play"><a class="button large play-game" href="<%= Routes.page_path(@conn, :game, @space.codename) %>"><%= gettext "Play" %></a></p>
+    <div class="home-stats">
+      <p><%= gettext("<strong>%{total} games</strong> played so far...", total: @number_of_games) |> raw() %></p>
+      <%= if @duration != nil do %>
+        <p><%= gettext("<strong>%{duration}</strong> of lost productivity ;)", duration: @duration) |> raw() %></p>
+      <% end %>
+        <%= if List.first(@high_score_this_week) != nil do %>
+          <p><%= gettext("This week's best score is <strong>%{name}</strong> with <strong>%{score} points</strong>!", name: List.first(@high_score_this_week), score: Enum.at(@high_score_this_week, 1)) |> raw() %></p>
+        <% else %>
+          <p><%= gettext("This week's best score is ... <strong>nobody</strong>, claim the throne now!") |> raw() %>
+        <% end %>
+        <%= if Kernel.hd(@high_score) != nil do %>
+          <p><%= gettext("Best score of all time is <strong>%{name}</strong> with <strong>%{score} points</strong>!", name: List.first(@high_score), score: Enum.at(@high_score, 1)) |> raw() %></p>
+        <% end %>
+    </div>
+  </div>
+</div>
