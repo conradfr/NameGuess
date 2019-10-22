@@ -79,7 +79,7 @@ defmodule NameGuess.DataSource.BambooHR do
         |> String.downcase()
 
       %Person{
-        reference: Map.get(e, "id"),
+        reference: Map.get(e, "workEmail"),
         name: Map.get(e, "preferredName") || Map.get(e, "firstName"),
         gender: gender,
         division: Map.get(e, "division", nil),
