@@ -68,3 +68,4 @@ npm-debug.log
 
 /.idea/
 
+/tools/capistrano/config/deploy/production.rb
