@@ -70,7 +70,7 @@
             </div>
             <div class="small-6 medium-5 cell">
               <div class="float-right">
-              <%= gettext("#%{rank} this week", rank: @game.score_rank_this_week) %>
+              <%= gettext("#%{rank} this month", rank: @game.score_rank_this_month) %>
               <%= if @game.score_rank_all_time < 26 do %>
                 <%= gettext(", #%{rank} overall", rank: @game.score_rank_all_time) %>
               <% end %>

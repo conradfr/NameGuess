@@ -81,22 +81,22 @@ defmodule NameGuess.Score do
   end
 
   def is_high_score?(space, score, duration) do
-    {count_this_week, count_all} = high_score_rank_count(space, score, duration)
+    {count_this_month, count_all} = high_score_rank_count(space, score, duration)
 
     count_all < @number_of_high_scores or
-      count_this_week < @number_of_high_scores
+      count_this_month < @number_of_high_scores
   end
 
   @spec get_score_rank(Space, integer, integer) :: integer
   def get_score_rank(space, score, duration) do
-    {_count_this_week, count_all} = high_score_rank_count(space, score, duration)
+    {_count_this_month, count_all} = high_score_rank_count(space, score, duration)
     count_all + 1
   end
 
-  @spec get_score_rank_this_week(Space, integer, integer) :: integer
-  def get_score_rank_this_week(space, score, duration) do
-    {count_this_week, _count_all} = high_score_rank_count(space, score, duration)
-    count_this_week + 1
+  @spec get_score_rank_this_month(Space, integer, integer) :: integer
+  def get_score_rank_this_month(space, score, duration) do
+    {count_this_month, _count_all} = high_score_rank_count(space, score, duration)
+    count_this_month + 1
   end
 
   @spec high_score_rank_count(Space, integer, integer) :: tuple
@@ -111,18 +111,18 @@ defmodule NameGuess.Score do
 
     count_all = Repo.one(high_score_all_query)
 
-    high_score_this_week_query =
+    high_score_this_month_query =
       from(q in high_score_all_query,
         where:
           fragment(
-            "EXTRACT(WEEK FROM ? at time zone 'UTC' at time zone 'Europe/Paris') = EXTRACT(WEEK FROM now() at time zone 'Europe/Paris')",
+            "EXTRACT(MONTH FROM ? at time zone 'UTC' at time zone 'Europe/Paris') = EXTRACT(MONTH FROM now() at time zone 'Europe/Paris')",
             q.scored_at
           )
       )
 
-    count_this_week = Repo.one(high_score_this_week_query)
+    count_this_month = Repo.one(high_score_this_month_query)
 
-    {count_this_week, count_all}
+    {count_this_month, count_all}
   end
 
   @spec get_highest_score(Space) :: list
@@ -136,9 +136,9 @@ defmodule NameGuess.Score do
     end
   end
 
-  @spec get_highest_score_this_week(Space) :: list
-  def get_highest_score_this_week(space) do
-    high_score = get_high_scores_this_week(space, 1)
+  @spec get_highest_score_this_month(Space) :: list
+  def get_highest_score_this_month(space) do
+    high_score = get_high_scores_this_month(space, 1)
 
     if length(high_score) > 0 do
       hd(high_score)
@@ -153,13 +153,13 @@ defmodule NameGuess.Score do
     Repo.all(query)
   end
 
-  @spec get_high_scores_this_week(Space, integer) :: list
-  def get_high_scores_this_week(space, how_many \\ @number_of_high_scores) do
+  @spec get_high_scores_this_month(Space, integer) :: list
+  def get_high_scores_this_month(space, how_many \\ @number_of_high_scores) do
     query =
       from(q in get_high_scores_query(space.id, how_many),
         where:
           fragment(
-            "EXTRACT(WEEK FROM ? at time zone 'UTC' at time zone 'Europe/Paris') = EXTRACT(WEEK FROM now() at time zone 'Europe/Paris')",
+            "EXTRACT(MONTH FROM ? at time zone 'UTC' at time zone 'Europe/Paris') = EXTRACT(MONTH FROM now() at time zone 'Europe/Paris')",
             q.scored_at
           )
       )
