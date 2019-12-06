@@ -162,10 +162,10 @@ defmodule NameGuess.Game do
         |> put_next_round()
 
       :win_next ->
-        %{game | state: :win }
+        %{game | state: :win}
 
       :gameover_next ->
-        %{game | state: :gameover }
+        %{game | state: :gameover}
 
       _ ->
         game
@@ -182,7 +182,7 @@ defmodule NameGuess.Game do
         current_choices: choices,
         past_picks: past_picks,
         wrong_pick: nil,
-        tick: @max_seconds_per_round,
+        tick: @max_seconds_per_round
     }
   end
 

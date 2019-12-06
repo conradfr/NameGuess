@@ -93,52 +93,51 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
   defp get_presidents() do
     case HTTPoison.get(@source_url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-          presidents_nodes =
-            body
-            |> Floki.find("h2 + center table.wikitable tr")
-            |> Enum.drop(2)
-            |> Enum.filter(fn {_, _, children} ->
-              Kernel.length(children) > 3
-            end)
+        presidents_nodes =
+          body
+          |> Floki.find("h2 + center table.wikitable tr")
+          |> Enum.drop(2)
+          |> Enum.filter(fn {_, _, children} ->
+            Kernel.length(children) > 3
+          end)
 
-          presidents =
-            presidents_nodes
-            |> Enum.map(fn {_, _, children} ->
-              name =
-                children
-                |> Floki.raw_html()
-                |> Floki.find("big a")
-                |> Floki.text()
+        presidents =
+          presidents_nodes
+          |> Enum.map(fn {_, _, children} ->
+            name =
+              children
+              |> Floki.raw_html()
+              |> Floki.find("big a")
+              |> Floki.text()
 
-              picture_page =
-                children
-                |> Floki.raw_html()
-                |> Floki.find("a.image")
-                |> Floki.attribute("href")
-                |> List.first()
+            picture_page =
+              children
+              |> Floki.raw_html()
+              |> Floki.find("a.image")
+              |> Floki.attribute("href")
+              |> List.first()
 
-              party =
-                children
-                |> Floki.raw_html()
-                |> Floki.find("td")
-                |> Enum.at(6)
-                |> Floki.raw_html()
-                |> Floki.find("a")
-                |> List.first()
-                |> Floki.text()
-                |> String.replace(~r/\r|\n/, "")
-                |> (fn(text) ->
+            party =
+              children
+              |> Floki.raw_html()
+              |> Floki.find("td")
+              |> Enum.at(6)
+              |> Floki.raw_html()
+              |> Floki.find("a")
+              |> List.first()
+              |> Floki.text()
+              |> String.replace(~r/\r|\n/, "")
+              |> (fn text ->
                     if String.contains?(text, "["), do: nil, else: text
-                end).()
+                  end).()
 
-              %{name: name, party: party, picture: picture_page}
-            end)
+            %{name: name, party: party, picture: picture_page}
+          end)
 
-          {:ok, presidents}
+        {:ok, presidents}
 
-    _ ->
-      {:error, []}
+      _ ->
+        {:error, []}
     end
   end
-
 end

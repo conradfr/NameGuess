@@ -99,6 +99,7 @@ defmodule NameGuessWeb.GameView do
     socket =
       start_game(socket)
       |> schedule_end_of_countdown()
+
     {:noreply, socket}
   end
 
