@@ -49,7 +49,7 @@ defmodule NameGuess.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.4"},
-      {:floki, ">= 0.0.0", only: :test},
+      {:floki, ">= 0.0.0"},
       {:quantum, "~> 2.3"},
       {:timex, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
