@@ -86,7 +86,7 @@
 <div class="grid-x grid-padding-x">
   <div class="cell auto">
     <p class="space-up-50 text-center">
-      <a class="button play-game" href="<%= Routes.page_path(@socket, :game) %>"><%= gettext "Play now" %></a>
+      <a class="button play-game" href="<%= Routes.page_path(@conn, :game, @space.codename) %>"><%= gettext "Play now" %></a>
     </p>
   </div>
 </div>
