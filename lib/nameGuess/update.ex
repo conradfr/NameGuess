@@ -56,6 +56,33 @@ defmodule NameGuess.Update do
   end
 
   @doc """
+    Delete all persons from source
+  """
+  @spec delete_from_source(String.t()) :: tuple
+  def delete_from_source(source) do
+    Logger.info("Deleting people ...")
+
+    all_from_source = People.get_keys_of_source(source)
+
+    ids_to_delete =
+      all_from_source
+      |> Enum.map(fn {id, _reference} ->
+        id
+      end)
+
+    {:ok, how_many} = People.Store.delete(ids_to_delete)
+
+    # Used by picker process for global rotation
+    Picker.update_total_people()
+
+    Cache.delete_counters()
+    Cache.delete_divisions()
+
+    Logger.info("Deleting done (#{how_many})")
+    {:ok, how_many}
+  end
+
+  @doc """
    Update person's pictures
   """
   def pictures() do

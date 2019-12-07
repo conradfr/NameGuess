@@ -6,7 +6,7 @@ defmodule NameGuessWeb.GameTest do
     game = %Game{
       state: :ok,
       score: 0,
-      score_rank_this_week: 0,
+      score_rank_this_month: 0,
       score_rank_all_time: 0,
       tick: 10,
       current_pick: nil,

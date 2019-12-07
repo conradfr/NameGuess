@@ -2,12 +2,15 @@ use Mix.Config
 
 # Configures the endpoint
 config :nameGuess, NameGuessWeb.Endpoint,
-       secret_key_base: "YOUR_SECRET_KEY_BASE",
-       live_view: [
-              signing_salt: "YOUR_SIGNING_SALT"
-       ]
+   secret_key_base: "YOUR_SECRET_KEY_BASE",
+   live_view: [
+          signing_salt: "YOUR_SIGNING_SALT"
+   ]
 
 config :nameGuess,
-       app_name: "NameGuess",
-       bamboohr_subdomain: "",
-       datasource_sources: [NameGuess.DataSource.BambooHR, NameGuess.DataSource.Local]
+  app_name: "NameGuess",
+  bamboohr_subdomain: "",
+  default_space_codename: "",
+  # used on sql query for people selection, using person.location field
+  homepage_picture_location: nil,
+  datasource_sources: [NameGuess.DataSource.WikipediaPresidents]

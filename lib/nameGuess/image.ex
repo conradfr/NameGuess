@@ -30,28 +30,29 @@ defmodule NameGuess.Image do
   end
 
   def homepage() do
-    unless Mix.env() == :dev do
-      # Delete previous slices (should be deleted anyway)
-      delete_slices()
+    #    unless Mix.env() == :dev do
+    # Delete previous slices (should be deleted anyway)
+    delete_slices()
 
-      how_many = Enum.random(@cover_how_many)
-      slice_height = Kernel.trunc(@cover_height / how_many)
+    how_many = Enum.random(@cover_how_many)
+    slice_height = Kernel.trunc(@cover_height / how_many)
 
-      how_many
-      |> get_cover_files()
-      |> slice(slice_height)
+    how_many
+    |> get_cover_files()
+    |> slice(slice_height)
 
-      assemble()
-    end
+    assemble()
+    #    end
   end
 
   defp get_cover_files(how_many) do
     #    File.ls!(@static_path <> @cover_source_folder)
     #    |> Enum.take_random(how_many)
+    location = Application.get_env(:nameGuess, :homepage_picture_location)
 
     from(p in Person,
       select: {p.reference, p.source},
-      where: p.location == "Paris"
+      where: p.location == ^location
     )
     |> Repo.all()
     |> Enum.take_random(how_many)
@@ -70,6 +71,7 @@ defmodule NameGuess.Image do
     [image | tail] = images
 
     open(@people_origin_folder <> image)
+    |> resize_to_limit(@cover_width)
     |> custom("crop", "#{@cover_width}x#{height}+0+#{index * height}")
     |> format("jpeg")
     |> save(path: @cover_image_folder_temp <> Integer.to_string(index + 1) <> ".jpg")

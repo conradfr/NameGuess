@@ -11,7 +11,7 @@ defmodule NameGuess.Game do
     :space,
     :state,
     :score,
-    :score_rank_this_week,
+    :score_rank_this_month,
     :score_rank_all_time,
     :current_pick,
     :current_choices,
@@ -36,7 +36,7 @@ defmodule NameGuess.Game do
       space: space,
       state: :ok,
       score: 0,
-      score_rank_this_week: 0,
+      score_rank_this_month: 0,
       score_rank_all_time: 0,
       countdown_timer: nil,
       tick: @max_seconds_per_round,
@@ -120,11 +120,11 @@ defmodule NameGuess.Game do
         ended_at: datetime_end
     }
 
-    {score_rank_this_week, score_rank_all_time} = get_score_ranks(game, datetime_end)
+    {score_rank_this_month, score_rank_all_time} = get_score_ranks(game, datetime_end)
 
     game = %{
       game
-      | score_rank_this_week: score_rank_this_week,
+      | score_rank_this_month: score_rank_this_month,
         score_rank_all_time: score_rank_all_time
     }
 
@@ -134,14 +134,14 @@ defmodule NameGuess.Game do
 
   @spec has_lost(Game, integer, DateTime) :: Game
   defp has_lost(game, pick, datetime_end) do
-    {score_rank_this_week, score_rank_all_time} = get_score_ranks(game, datetime_end)
+    {score_rank_this_month, score_rank_all_time} = get_score_ranks(game, datetime_end)
 
     game = %{
       game
       | state: :gameover_next,
         wrong_pick: pick,
         ended_at: datetime_end,
-        score_rank_this_week: score_rank_this_week,
+        score_rank_this_month: score_rank_this_month,
         score_rank_all_time: score_rank_all_time
     }
 
@@ -162,10 +162,10 @@ defmodule NameGuess.Game do
         |> put_next_round()
 
       :win_next ->
-        %{game | state: :win }
+        %{game | state: :win}
 
       :gameover_next ->
-        %{game | state: :gameover }
+        %{game | state: :gameover}
 
       _ ->
         game
@@ -182,7 +182,7 @@ defmodule NameGuess.Game do
         current_choices: choices,
         past_picks: past_picks,
         wrong_pick: nil,
-        tick: @max_seconds_per_round,
+        tick: @max_seconds_per_round
     }
   end
 
@@ -202,8 +202,8 @@ defmodule NameGuess.Game do
   def get_score_ranks(game, datetime_end) do
     duration = get_duration(game, datetime_end)
     score_rank_all_time = Score.get_score_rank(game.space, game.score, duration)
-    score_rank_this_week = Score.get_score_rank_this_week(game.space, game.score, duration)
-    {score_rank_this_week, score_rank_all_time}
+    score_rank_this_month = Score.get_score_rank_this_month(game.space, game.score, duration)
+    {score_rank_this_month, score_rank_all_time}
   end
 
   @spec get_duration(Game, DateTime) :: integer
