@@ -16,10 +16,10 @@ defmodule NameGuessWeb.GameView do
       socket =
         socket
         |> assign(
-          name_saved: Map.get(session.cookies, "name", ""),
-          space: session.space,
+          name_saved: Map.get(session["cookies"], "name", ""),
+          space: session["space"],
           # potential bug if connected without reloading the page when people are updated
-          guesses_to_win: session.number_of_people
+          guesses_to_win: session["number_of_people"]
         )
         |> start_game()
         |> schedule_end_of_countdown()
