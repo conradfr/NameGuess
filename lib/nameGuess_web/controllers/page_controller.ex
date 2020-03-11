@@ -30,7 +30,7 @@ defmodule NameGuessWeb.PageController do
     number_of_people = People.get_keys_total(space)
 
     LiveView.Controller.live_render(conn, NameGuessWeb.GameView,
-      session: %{space: space, number_of_people: number_of_people, cookies: conn.cookies}
+      session: %{"space" => space, "number_of_people" => number_of_people, "cookies" => conn.cookies}
     )
   end
 

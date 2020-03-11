@@ -62,7 +62,8 @@ defmodule NameGuess.DataSource.BambooHR do
     |> Enum.reject(fn e ->
       (Map.get(e, "location") not in locations and Map.get(e, "location") != nil) or
         Map.get(e, "photoUploaded") == false or
-        Map.get(e, "gender") == nil
+        Map.get(e, "gender") == nil or
+        Map.get(e, "workEmail") == nil
     end)
   end
 
@@ -82,7 +83,7 @@ defmodule NameGuess.DataSource.BambooHR do
         reference: Map.get(e, "workEmail"),
         name: Map.get(e, "preferredName") || Map.get(e, "firstName"),
         gender: gender,
-        division: Map.get(e, "division", nil),
+        division: Map.get(e, "department", nil),
         position: Map.get(e, "jobTitle", nil),
         location: Map.get(e, "location", nil),
         img_source: photo_url,
