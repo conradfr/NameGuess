@@ -16,9 +16,10 @@ config :nameGuess, NameGuessWeb.Endpoint,
   server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :nameGuess, NameGuessWeb.Repo,
+config :nameGuess, NameGuess.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
+  database: "",
   ssl: true,
   pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
 
