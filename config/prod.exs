@@ -10,19 +10,28 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :nameGuess, NameGuessWeb.Endpoint,
-  http: [ip: {172, 16, 200, 147}, port: System.get_env("PORT") || 4001],
-  #    http: [:inet6, port: System.get_env("PORT") || 4001],
-  https: [
-    port: 4002,
-    cipher_suite: :strong,
-    certfile: "priv/cert/selfsigned.pem",
-    keyfile: "priv/cert/selfsigned_key.pem"
-  ],
-  #  url: [host: "172.16.208.113", port: 4001]
-  url: [host: "172.16.200.147", port: 4001],
-  #  url: [host: "192.168.2.178", port: 4001],
-
+  http: [port: {:system, "PORT"}], # Possibly not needed, but doesn't hurt
+  url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 80],
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+  server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :nameGuess, NameGuessWeb.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  ssl: true,
+  pool_size: 2 # Free tier db only allows 4 connections. Rolling deploys need pool_size*(n+1) connections where n is the number of app replicas.
+
+# Configures the endpoint
+config :nameGuess, NameGuessWeb.Endpoint,
+       live_view: [
+         signing_salt: System.get_env("LIVEVIEW_SALT")
+       ]
+
+config :nameGuess,
+   app_name: System.get_env("PUBLIC_NAME"),
+   default_space_codename: System.get_env("DEFAULT_SPACE"),
+   datasource_sources: System.get_env("DATA_SOURCES")
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -78,4 +87,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
-import_config "prod.secret.exs"
+#import_config "prod.secret.exs"
