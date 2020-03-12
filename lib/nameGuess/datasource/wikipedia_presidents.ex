@@ -66,6 +66,7 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           picture_url_full =
             body
+            |> Floki.parse_document!()
             |> Floki.find("div.fullImageLink a")
             |> Floki.attribute("href")
             |> List.first()
@@ -95,10 +96,11 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         presidents_nodes =
           body
-          |> Floki.find("h2 + center table.wikitable tr")
+          |> Floki.parse_document!()
+          |> Floki.find("#toc + h2 + table.wikitable tr")
           |> Enum.drop(2)
           |> Enum.filter(fn {_, _, children} ->
-            Kernel.length(children) > 3
+            Kernel.length(children) > 4
           end)
 
         presidents =
@@ -107,12 +109,14 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
             name =
               children
               |> Floki.raw_html()
-              |> Floki.find("big a")
+              |> Floki.parse_document!()
+              |> Floki.find("b a")
               |> Floki.text()
 
             picture_page =
               children
               |> Floki.raw_html()
+              |> Floki.parse_document!()
               |> Floki.find("a.image")
               |> Floki.attribute("href")
               |> List.first()
@@ -120,9 +124,11 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
             party =
               children
               |> Floki.raw_html()
+              |> Floki.parse_document!()
               |> Floki.find("td")
-              |> Enum.at(6)
+              |> Enum.at(5)
               |> Floki.raw_html()
+              |> Floki.parse_document!()
               |> Floki.find("a")
               |> List.first()
               |> Floki.text()
@@ -137,6 +143,7 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
         {:ok, presidents}
 
       _ ->
+        Logger.error("Error reaching Wikipedia's page")
         {:error, []}
     end
   end
