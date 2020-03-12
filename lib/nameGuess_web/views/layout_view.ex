@@ -4,6 +4,16 @@ defmodule NameGuessWeb.LayoutView do
   alias NameGuess.Repo
   alias NameGuess.Space
 
+  def multiple_spaces?(_conn) do
+    query =
+      from(s in Space,
+        where: s.public == true,
+        select: count(s.id)
+      )
+
+    Repo.one(query) > 1
+  end
+
   def get_space(_conn) do
     query =
       from(s in Space,

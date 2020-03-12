@@ -15,6 +15,7 @@
           <div class="title cell medium-6 small-4 no-js">
             <ul class="menu title dropdown" data-dropdown-menu>
               <li><a href="<%= Routes.page_path(@conn, :index, @space.codename) %>">NameGuess<!-- <span class="title-space"><%= @space.name %></span>--></a></li>
+              <%= if multiple_spaces?(@conn) === true do %>
               <li class="is-dropdown-submenu-parent hide-for-small-only">
                 <a href="#"><%= @space.name %></a>
                 <ul class="menu vertical">
@@ -25,6 +26,7 @@
                   <% end %>
                 </ul>
               </li>
+              <% end %>
             </ul>
           </div>
           <div class="cell auto">
