@@ -4,14 +4,15 @@ defmodule NameGuessWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_nameGuess_key",
-    signing_salt: "AIQ7CFOd"
+    signing_salt: "BSUh4L0znpqv6D6Aru9rCVHoB4fXa0D1"
   ]
 
   socket "/socket", NameGuessWeb.UserSocket,
     websocket: true,
     longpoll: false
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket,
+         websocket: [connect_info: [session: @session_options]]
 
   # People's pictures
   #
