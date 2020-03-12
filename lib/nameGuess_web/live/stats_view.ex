@@ -10,8 +10,8 @@ defmodule NameGuessWeb.StatsView do
     NameGuessWeb.PageView.render("stats.html", assigns)
   end
 
-  def mount(session, socket) do
-    space = session.space
+  def mount(_params, session, socket) do
+    space = session["space"]
 
     number_of_people = People.get_keys_total(space)
     most_guessed = Stats.get_most_guessed(space)

@@ -9,6 +9,7 @@ defmodule NameGuessWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug NameGuessWeb.Plugs.Space
+    plug :put_live_layout, {NameGuessWeb.LayoutView, "app.html"}
   end
 
   pipeline :api do
@@ -22,15 +23,15 @@ defmodule NameGuessWeb.Router do
     get "/game", PageController, :game
     get "/highscores", PageController, :high_scores
 
-    live "/stats", StatsView, session: [:space]
-    live "/stats/:division_key", StatsView, session: [:space]
+    live "/stats", StatsView
+    live "/stats/:division_key", StatsView
 
     get "/:space", PageController, :index
     get "/:space/game", PageController, :game
     get "/:space/highscores", PageController, :high_scores
 
-    live "/:space/stats", StatsView, session: [:space], as: :stats_spaced
-    live "/:space/stats/:division_key", StatsView, session: [:space]
+    live "/:space/stats", StatsView, as: :stats_spaced
+    live "/:space/stats/:division_key", StatsView
   end
 
   # Other scopes may use custom stacks.

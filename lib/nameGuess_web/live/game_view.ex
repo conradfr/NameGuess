@@ -11,7 +11,7 @@ defmodule NameGuessWeb.GameView do
     NameGuessWeb.PageView.render("game.html", assigns)
   end
 
-  def mount(session, socket) do
+  def mount(_params, session, socket) do
     if connected?(socket) do
       socket =
         socket
