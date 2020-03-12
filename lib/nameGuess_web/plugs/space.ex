@@ -15,7 +15,7 @@ defmodule NameGuessWeb.Plugs.Space do
 
     unless space == nil do
       assign(conn, :space, space)
-      |> put_session(:space, space)
+      |> put_session("space", space)
     else
       conn
       |> Phoenix.Controller.render(NameGuessWeb.ErrorView, :"404")
