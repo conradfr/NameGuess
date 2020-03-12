@@ -30,9 +30,10 @@ config :nameGuess, NameGuessWeb.Endpoint,
        ]
 
 config :nameGuess,
-   app_name: System.get_env("PUBLIC_NAME"),
-   default_space_codename: System.get_env("DEFAULT_SPACE"),
-   datasource_sources: System.get_env("DATA_SOURCES")
+  app_name: System.get_env("PUBLIC_NAME"),
+  default_space_codename: System.get_env("DEFAULT_SPACE"),
+  homepage_picture_location: System.get_env("HOME_PICTURE_LOCATION"),
+  datasource_sources: [NameGuess.DataSource.WikipediaPresidents] # need to find a way to pass as env
 
 # Do not print debug messages in production
 config :logger, level: :info
