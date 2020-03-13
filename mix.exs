@@ -4,8 +4,8 @@ defmodule NameGuess.MixProject do
   def project do
     [
       app: :nameGuess,
-      version: "0.2.0",
-      elixir: "~> 1.7",
+      version: "0.2.1",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
