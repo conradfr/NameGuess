@@ -26,7 +26,7 @@ defmodule NameGuess.Image do
   # -------------------- Homepage generated image --------------------
 
   def homepage_path() do
-    @public_folder <> @cover_dest
+    Application.app_dir(:nameGuess, @public_folder <> @cover_dest) <> "/"
   end
 
   def homepage() do
@@ -70,30 +70,30 @@ defmodule NameGuess.Image do
   defp slice(images, height, index) do
     [image | tail] = images
 
-    open(@people_origin_folder <> image)
+    open(Application.app_dir(:nameGuess, @people_origin_folder <> image))
     |> resize_to_limit(@cover_width)
     |> custom("crop", "#{@cover_width}x#{height}+0+#{index * height}")
     |> format("jpeg")
-    |> save(path: @cover_image_folder_temp <> Integer.to_string(index + 1) <> ".jpg")
+    |> save(path: Application.app_dir(:nameGuess, @cover_image_folder_temp <> Integer.to_string(index + 1) <> ".jpg"))
 
     slice(tail, height, index + 1)
   end
 
   defp assemble() do
     images =
-      Path.wildcard(@cover_image_folder_temp <> "*.jpg")
+      Path.wildcard(Application.app_dir(:nameGuess, @cover_image_folder_temp) <> "/*.jpg")
       |> Enum.sort(
         &(String.to_integer(Path.basename(&1, ".jpg")) <=
             String.to_integer(Path.basename(&2, ".jpg")))
       )
 
-    System.cmd("convert", ["-append"] ++ images ++ [@public_folder <> @cover_dest])
+    System.cmd("convert", ["-append"] ++ images ++ [Application.app_dir(:nameGuess, @public_folder <> @cover_dest)])
     delete_slices()
     :ok
   end
 
   defp delete_slices() do
-    Path.wildcard(@cover_image_folder_temp <> "*.jpg")
+    Path.wildcard(Application.app_dir(:nameGuess, @cover_image_folder_temp) <> "/*.jpg")
     |> Enum.each(fn f -> File.rm!(f) end)
   end
 
@@ -117,23 +117,23 @@ defmodule NameGuess.Image do
 
   @spec generate_overloadings(Person, integer, integer) :: any
   defp generate_overloadings(person, crop_height, crop_width) do
-    @people_overloading_folder
+    (Application.app_dir(:nameGuess, @people_overloading_folder) <> "/")
     |> File.ls!()
     |> Enum.filter(fn entry ->
-      (@people_overloading_folder <> entry)
+      (Application.app_dir(:nameGuess, @people_overloading_folder <> entry))
       |> File.dir?()
     end)
     |> Enum.map(fn folder ->
       folder <> "/" <> person.source <> "_" <> person.reference <> ".jpg"
     end)
     |> Enum.filter(fn file ->
-      (@people_overloading_folder <> file)
+      (Application.app_dir(:nameGuess, @people_overloading_folder <> file))
       |> File.exists?()
     end)
     |> Enum.each(fn file ->
-      (@people_overloading_folder <> file)
+      (Application.app_dir(:nameGuess, @people_overloading_folder <> file))
       |> process_image(
-        @people_display_folder <> file,
+        Application.app_dir(:nameGuess, @people_display_folder <> file),
         @max_width_full,
         crop_height,
         crop_width
@@ -191,23 +191,23 @@ defmodule NameGuess.Image do
 
   @spec get_picture_original_path(Person) :: String.t()
   def get_picture_original_path(person) do
-    @people_origin_folder <> get_picture_filename(person) <> ".jpg"
+    Application.app_dir(:nameGuess, @people_origin_folder <> get_picture_filename(person) <> ".jpg")
   end
 
   @spec get_picture_full_path(String.t()) :: String.t()
   def get_picture_full_path(filename) do
-    @people_display_folder <> filename <> ".jpg"
+    Application.app_dir(:nameGuess, @people_display_folder <> filename <> ".jpg")
   end
 
   @spec get_picture_thumbnail_path(Person | map) :: String.t()
   def get_picture_thumbnail_path(person) do
-    @public_folder <> @people_thumbnail_folder <> get_picture_filename(person) <> ".jpg"
+    Application.app_dir(:nameGuess, @public_folder <> @people_thumbnail_folder <> get_picture_filename(person) <> ".jpg")
   end
 
   @spec get_overloaded_picture_full_path(String.t(), Person) :: String.t()
   def get_overloaded_picture_full_path(space_codename, person) do
-    @people_display_folder <>
-      space_codename <> "/" <> person.source <> "_" <> person.reference <> ".jpg"
+    Application.app_dir(:nameGuess, @people_display_folder <>
+      space_codename <> "/" <> person.source <> "_" <> person.reference <> ".jpg")
   end
 
   @spec has_overloaded_picture?(Space, Person) :: boolean
