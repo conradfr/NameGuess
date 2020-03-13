@@ -80,7 +80,7 @@ defmodule NameGuessWeb.StatsView do
     division_key = Map.get(division_choice, "division_id")
 
     {:noreply,
-     live_redirect(
+      push_patch(
        socket,
        to:
          Routes.live_path(
