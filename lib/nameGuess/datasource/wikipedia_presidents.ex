@@ -54,7 +54,8 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
       :ok ->
         {:ok, path}
 
-      _ ->
+      {:error, reason} ->
+        Logger.warn("Error saving picture file to " <> path <>" : " <> Atom.to_string(reason))
         {:error, nil}
     end
   end

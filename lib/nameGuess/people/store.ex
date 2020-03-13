@@ -36,10 +36,12 @@ defmodule NameGuess.People.Store do
                 acc ++ [updated_person]
 
               _ ->
+                Logger.warn("Error generating image", [person: person])
                 acc
             end
 
           {:error, _} ->
+            Logger.warn("Error importing image", [person: person])
             acc
         end
       end)
