@@ -1,9 +1,11 @@
 
 # NameGuess
 
-Phoenix LiveView POC
+A company game, matching pictures of employees to names.
 
-Company game, matching pictures of employees to names.
+(Phoenix LiveView POC)
+
+Demo (with some special colleagues) : https://every-weak-tapaculo.gigalixirapp.com
 
 ## Dependencies
 
@@ -14,7 +16,7 @@ Company game, matching pictures of employees to names.
 
 ## Install project
 
-1. Configure app_config.exs & ENV.secret.exs in /config based on .dist templates
+1. Configure app_config.exs & ENV.secret.exs in /config based on .dist templates (dev) or env var (prod)
 2. Adapt the datasources [read about datasources](#datasources)
 
 ## Init project
@@ -23,6 +25,7 @@ Company game, matching pictures of employees to names.
  2. cd assets && npm install && node node_modules/webpack/bin/webpack.js --mode development
  3. mix ecto.create
  4. mix ecto.migrate
+ 5. add at least one entry in the space table
 
 ## Start
 
@@ -52,12 +55,4 @@ Two datasource are included, BambooHR and Local. Local use a json file to import
 
 Datasources are updated by default every night, pictures are updated once a week. These tasks schedule is defined in /config/config.exs.
 
-## Learn more about Phoenix
-
-  * Official website: http://www.phoenixframework.org/
-  * LiveView: https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
   
