@@ -49,7 +49,7 @@
     </div>
     </main>
     <footer>
-        <%= gettext("©%{year} %{app_name}", year: DateTime.utc_now.year, app_name: Application.get_env(:nameGuess, :app_name)) |> raw() %>
+        <%= gettext("©%{year} %{app_name}", year: DateTime.utc_now.year, app_name: Application.get_env(:nameGuess, :app_name)) |> raw() %> - <a target="_blank" href="https://github.com/conradfr/NameGuess">sources</a>
     </footer>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>

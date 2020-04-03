@@ -12,5 +12,5 @@ config :nameGuess,
   bamboohr_subdomain: "",
   default_space_codename: "",
   # used on sql query for people selection, using person.location field
-  homepage_picture_location: nil,
+  homepage_picture_location: "",
   datasource_sources: [NameGuess.DataSource.WikipediaPresidents]
