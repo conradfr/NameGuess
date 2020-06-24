@@ -39,7 +39,7 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
 
   @impl true
   def import_image(president) do
-    case HTTPoison.get(president.img_source) do
+    case HTTPoison.get(president.img_source, [], [follow_redirect: true, ssl: [ciphers: :ssl.cipher_suites(), versions: [:"tlsv1.2", :"tlsv1.1", :tlsv1]]]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         full_path = Image.get_picture_original_path(president)
         save_photo(full_path, body)
@@ -63,7 +63,7 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
   defp get_real_picture_path(presidents) do
     presidents
     |> Enum.map(fn president ->
-      case HTTPoison.get(@source_base <> president.picture) do
+      case HTTPoison.get(@source_base <> president.picture, [], [follow_redirect: true, ssl: [ciphers: :ssl.cipher_suites(), versions: [:"tlsv1.2", :"tlsv1.1", :tlsv1]]]) do
         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           picture_url_full =
             body
@@ -92,14 +92,14 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
     end)
   end
 
-  defp get_presidents() do
-    case HTTPoison.get(@source_url) do
+  def get_presidents() do
+    case HTTPoison.get(@source_url, [], [follow_redirect: true, ssl: [ciphers: :ssl.cipher_suites(), versions: [:"tlsv1.2", :"tlsv1.1", :tlsv1]]]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         presidents_nodes =
           body
           |> Floki.parse_document!()
           |> Floki.find("#toc + h2 + table.wikitable tr")
-          |> Enum.drop(2)
+          |> Enum.drop(1)
           |> Enum.filter(fn {_, _, children} ->
             Kernel.length(children) > 4
           end)
@@ -130,8 +130,8 @@ defmodule NameGuess.DataSource.WikipediaPresidents do
               |> Enum.at(5)
               |> Floki.raw_html()
               |> Floki.parse_document!()
-              |> Floki.find("a")
-              |> List.first()
+#              |> Floki.find("a")
+#              |> List.first()
               |> Floki.text()
               |> String.replace(~r/\r|\n/, "")
               |> (fn text ->
