@@ -49,7 +49,7 @@ Tests: mix test
 <a name="datasources"></a>
 ## Datasources
 
-Datasources are modules in /lib/nameGuess/datasource, implementing the NameGuess.DataSource behavior.
+Datasources are modules in /lib/nameGuess/datasource, implementing the NameGuess.DataSource behaviour.
 
 Three datasource are included, BambooHR, Wikipedia POTUS (demo) and Local. Local uses a json file to import people, an example is included in /priv/data, pictures should go in /priv/pics_local and use the jpeg format.
 
