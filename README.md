@@ -56,3 +56,6 @@ Three datasource are included, BambooHR, Wikipedia POTUS (demo) and Local. Local
 Datasources are updated by default every night, pictures are updated once a week. These tasks schedule is defined in /config/config.exs.
 
   
+## Todo
+
+Update to a more recent LiveView version.
