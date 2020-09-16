@@ -58,4 +58,4 @@ Datasources are updated by default every night, pictures are updated once a week
   
 ## Todo
 
-Update to a more recent LiveView version.
+Update to a recent LiveView version with components.
