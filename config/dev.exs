@@ -1,32 +1,36 @@
-use Mix.Config
+import Config
+
+# Configure your database
+# config :nameguess, NameGuess.Repo,
+#  username: "postgres",
+#  password: "postgres",
+#  database: "nameguess_dev",
+#  hostname: "localhost",
+#  show_sensitive_data_on_connection_error: true,
+#  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with webpack to recompile .js and .css sources.
-config :nameGuess, NameGuessWeb.Endpoint,
-  http: [port: 4000],
-  https: [
-    port: 4003,
-    cipher_suite: :strong,
-    certfile: "priv/cert/selfsigned.pem",
-    keyfile: "priv/cert/selfsigned_key.pem"
-  ],
-  debug_errors: true,
-  code_reloader: true,
+# with esbuild to bundle .js and .css sources.
+config :nameguess, NameGuessWeb.Endpoint,
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
-  watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
+  code_reloader: true,
+  debug_errors: true,
+  secret_key_base: "2hLXcQHjYnl4kI6gnJCrYvTNqPcGj6e7j7jVf7ZT6Cs9UvCJ8Y2DIT2L79YLt7kv",
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/nameguess_web/(live|views)/.*(ex)$",
+      ~r"lib/nameguess_web/templates/.*(eex)$"
     ]
   ]
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -52,16 +56,9 @@ config :nameGuess, NameGuessWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :nameGuess, NameGuessWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      #      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/static/.*(js|css|png|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/nameGuess_web/{live,views}/.*(ex)$",
-      ~r"lib/nameGuess_web/templates/.*(eex)$",
-      ~r{lib/nameGuess_web/live/.*(ex)$}
-    ]
+config :nameguess, NameGuessWeb.Endpoint,
+  watchers: [
+    node: ["build.js", "--watch", cd: Path.expand("../assets", __DIR__)]
   ]
 
 # Do not include metadata nor timestamps in development logs

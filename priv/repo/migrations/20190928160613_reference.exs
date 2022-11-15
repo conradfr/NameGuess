@@ -24,23 +24,23 @@ defmodule NameGuess.Repo.Migrations.Reference do
 
     create unique_index("person", [:reference, :source])
 
-        alter table("person") do
-          add :img_source, :text, default: nil
-        end
+    alter table("person") do
+      add :img_source, :text, default: nil
+    end
 
-        flush()
+    flush()
 
-        Repo.query(
-          """
-          UPDATE person SET img_source = person.img WHERE person.id is not null;
-          """,
-          []
-        )
+    Repo.query(
+      """
+      UPDATE person SET img_source = person.img WHERE person.id is not null;
+      """,
+      []
+    )
 
-        flush()
+    flush()
 
-        alter table("person") do
-          modify :img_source, :text, null: false
-        end
+    alter table("person") do
+      modify :img_source, :text, null: false
+    end
   end
 end

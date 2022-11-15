@@ -1,0 +1,39 @@
+<div class="grid-x grid-padding-x">
+  <div class="cell auto">
+    <h4 class="text-center cat-title"><%= gettext "High Scores" %> - <%= @space.name %></h4>
+  </div>
+</div>
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 medium-5 space-up-25-md">
+    <h5 class="text-center cat-title"><%= gettext "This month" %></h5>
+    <div class="highscores">
+    <%= if length(@high_scores_this_month) > 0 do %>
+      <%= render(NameGuessWeb.SharedView, "high_scores.html", conn: @conn, high_scores: @high_scores_this_month) %>
+    <% else %>
+      <div class="no-score"><%= gettext "No high scores this month :(" %></div>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="cell small-12 medium-5 medium-offset-2 space-up-25">
+    <h5 class="text-center cat-title"><%= gettext "All time" %></h5>
+    <div class="highscores">
+    <%= if length(@high_scores) > 0 do %>
+      <%= render(NameGuessWeb.SharedView, "high_scores.html", conn: @conn, high_scores: @high_scores) %>
+    <% else %>
+      <div class="no-score"><%= gettext "No high scores :(" %></div>
+    <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="grid-x grid-padding-x">
+  <div class="cell auto">
+    <p class="play-block">
+      <a class="button play-game" href={Routes.live_path(@conn, NameGuessWeb.GameLive, @space.codename)}><%= gettext "Play" %></a>
+    </p>
+    <p class="stats-block">
+      <%= gettext(~s(Or check some <a href="%{link}">stats</a>.), link: Routes.stats_spaced_path(@conn, NameGuessWeb.StatsLive, @space.codename)) |> raw() %>
+    </p>
+  </div>
+</div>
